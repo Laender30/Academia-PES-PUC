@@ -1,0 +1,51 @@
+﻿@model IEnumerable<WebApplication3.Models.Pagamento>
+
+@{
+    ViewBag.Title = "Registrar Pagamento";
+}
+
+<h2>Registrar Pagamento</h2>
+
+<p>
+    @Html.ActionLink("Criar", "Criar")
+</p>
+@using (Html.BeginForm())
+{
+    <p>
+        Find by name: @Html.TextBox("SearchString")
+        <input type="submit" value="`Pesquisar" />
+    </p>
+}
+<table class="table">
+    <tr>
+        <th>
+            @Html.DisplayNameFor(model => model.DataPagamento)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.Vencimento)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.Matricula)
+        </th>
+        <th></th>
+    </tr>
+
+@foreach (var item in Model) {
+    <tr>
+        <td>
+            @Html.DisplayFor(modelItem => item.DataPagamento)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.Vencimento)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.Matricula)
+        </td>
+        <td>
+            @Html.ActionLink("Editar", "Editar", new { id=item.PagamentoId }) |           
+            @Html.ActionLink("Excluir", "Excluir", new { id=item.PagamentoId })
+        </td>
+    </tr>
+}
+
+</table>

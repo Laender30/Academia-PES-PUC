@@ -1,0 +1,71 @@
+﻿@model IEnumerable<WebApplication3.Models.Avaliacao>
+
+@{
+    ViewBag.Title = "Index";
+}
+
+<h2>Index</h2>
+
+<p>
+     @Html.ActionLink("Detalhes", "Detalhes", new { /* id=item.PrimaryKey */ }) |
+    @Html.ActionLink("Criar", "criar")
+</p>
+@using (Html.BeginForm())
+{
+    <p>
+        Find by name: @Html.TextBox("SearchString")
+        <input type="submit" value="`Pesquisar" />
+    </p>
+}
+<table class="table">
+    <tr>
+        <th>
+            @Html.DisplayNameFor(model => model.Anamnese)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.Ergometrico)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.DobrasCutaneas)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.DataRealizacao)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.DataAgendamento)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.Matricula)
+        </th>
+        <th></th>
+    </tr>
+
+@foreach (var item in Model) {
+    <tr>
+        <td>
+            @Html.DisplayFor(modelItem => item.Anamnese)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.Ergometrico)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.DobrasCutaneas)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.DataRealizacao)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.DataAgendamento)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.Matricula)
+        </td>
+        <td>
+            @Html.ActionLink("Editar", "Editar", new { id=item.AvaliacaoID })
+         | |
+            @Html.ActionLink("Excluir", "Excluir", new { id=item.AvaliacaoID })
+        </td>
+    </tr>
+}
+
+</table>

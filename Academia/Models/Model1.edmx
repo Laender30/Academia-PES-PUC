@@ -1,0 +1,492 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<edmx:Edmx Version="3.0" xmlns:edmx="http://schemas.microsoft.com/ado/2009/11/edmx">
+  <!-- EF Runtime content -->
+  <edmx:Runtime>
+    <!-- SSDL content -->
+    <edmx:StorageModels>
+    <Schema Namespace="academiaModel.Store" Provider="System.Data.SqlClient" ProviderManifestToken="2012" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
+        <EntityType Name="Aula">
+          <Key>
+            <PropertyRef Name="AulaID" />
+          </Key>
+          <Property Name="AulaID" Type="bigint" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="Nome" Type="nvarchar" MaxLength="255" Nullable="false" />
+          <Property Name="Sala" Type="varchar" MaxLength="11" Nullable="false" />
+          <Property Name="DataInicio" Type="datetime" Nullable="false" />
+          <Property Name="DataFim" Type="datetime" Nullable="false" />
+          <Property Name="Matricula" Type="bigint" Nullable="false" />
+        </EntityType>
+        <EntityType Name="Avaliacao">
+          <Key>
+            <PropertyRef Name="AvaliacaoID" />
+          </Key>
+          <Property Name="AvaliacaoID" Type="bigint" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="Anamnese" Type="nvarchar" MaxLength="255" Nullable="false" />
+          <Property Name="Ergometrico" Type="varchar" MaxLength="11" Nullable="false" />
+          <Property Name="DobrasCutaneas" Type="varchar" MaxLength="500" Nullable="false" />
+          <Property Name="DataRealizacao" Type="datetime" Nullable="false" />
+          <Property Name="DataAgendamento" Type="datetime" Nullable="false" />
+          <Property Name="Matricula" Type="bigint" Nullable="false" />
+        </EntityType>
+        <EntityType Name="DiaSemana">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Name="ID" Type="bigint" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="DataDia" Type="datetime" Nullable="false" />
+          <Property Name="NomeDia" Type="varchar" MaxLength="11" Nullable="false" />
+          <Property Name="Semana" Type="int" Nullable="false" />
+        </EntityType>
+        <EntityType Name="Ferias">
+          <Key>
+            <PropertyRef Name="FeriasID" />
+          </Key>
+          <Property Name="FeriasID" Type="bigint" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="DataIncio" Type="datetime" Nullable="false" />
+          <Property Name="DataFim" Type="datetime" Nullable="false" />
+          <Property Name="Matricula" Type="bigint" Nullable="false" />
+        </EntityType>
+        <EntityType Name="Pagamento">
+          <Key>
+            <PropertyRef Name="PagamentoId" />
+          </Key>
+          <Property Name="PagamentoId" Type="bigint" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="DataPagamento" Type="datetime" />
+          <Property Name="Vencimento" Type="datetime" Nullable="false" />
+          <Property Name="Matricula" Type="bigint" Nullable="false" />
+        </EntityType>
+        <EntityType Name="Reserva">
+          <Key>
+            <PropertyRef Name="ReservaID" />
+          </Key>
+          <Property Name="ReservaID" Type="bigint" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="Presenca" Type="datetime" Nullable="false" />
+          <Property Name="Matricula" Type="bigint" Nullable="false" />
+          <Property Name="AulaID" Type="bigint" Nullable="false" />
+        </EntityType>
+        <EntityType Name="Usuario">
+          <Key>
+            <PropertyRef Name="Matricula" />
+          </Key>
+          <Property Name="Matricula" Type="bigint" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="Nome" Type="nvarchar" MaxLength="255" Nullable="false" />
+          <Property Name="CPF" Type="varchar" MaxLength="11" Nullable="false" />
+          <Property Name="Endereco" Type="varchar" MaxLength="500" Nullable="false" />
+          <Property Name="Telefone" Type="varchar" MaxLength="15" Nullable="false" />
+          <Property Name="TipoUsuario" Type="char" MaxLength="1" Nullable="false" />
+          <Property Name="Email" Type="varchar" MaxLength="255" />
+          <Property Name="TípoPlano" Type="char" MaxLength="1" />
+          <Property Name="TipoAtividade" Type="char" MaxLength="1" />
+          <Property Name="Ativo" Type="bit" Nullable="false" />
+        </EntityType>
+        <Association Name="fk_Aula_instrutor">
+          <End Role="Usuario" Type="Self.Usuario" Multiplicity="1" />
+          <End Role="Aula" Type="Self.Aula" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Usuario">
+              <PropertyRef Name="Matricula" />
+            </Principal>
+            <Dependent Role="Aula">
+              <PropertyRef Name="Matricula" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="fk_Aula_reserva">
+          <End Role="Aula" Type="Self.Aula" Multiplicity="1" />
+          <End Role="Reserva" Type="Self.Reserva" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Aula">
+              <PropertyRef Name="AulaID" />
+            </Principal>
+            <Dependent Role="Reserva">
+              <PropertyRef Name="AulaID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="fk_usuario_Avaliacao">
+          <End Role="Usuario" Type="Self.Usuario" Multiplicity="1" />
+          <End Role="Avaliacao" Type="Self.Avaliacao" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Usuario">
+              <PropertyRef Name="Matricula" />
+            </Principal>
+            <Dependent Role="Avaliacao">
+              <PropertyRef Name="Matricula" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="fk_usuario_Ferias">
+          <End Role="Usuario" Type="Self.Usuario" Multiplicity="1" />
+          <End Role="Ferias" Type="Self.Ferias" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Usuario">
+              <PropertyRef Name="Matricula" />
+            </Principal>
+            <Dependent Role="Ferias">
+              <PropertyRef Name="Matricula" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="fk_usuario_pagamento">
+          <End Role="Usuario" Type="Self.Usuario" Multiplicity="1" />
+          <End Role="Pagamento" Type="Self.Pagamento" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Usuario">
+              <PropertyRef Name="Matricula" />
+            </Principal>
+            <Dependent Role="Pagamento">
+              <PropertyRef Name="Matricula" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="fk_usuario_reserva">
+          <End Role="Usuario" Type="Self.Usuario" Multiplicity="1" />
+          <End Role="Reserva" Type="Self.Reserva" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Usuario">
+              <PropertyRef Name="Matricula" />
+            </Principal>
+            <Dependent Role="Reserva">
+              <PropertyRef Name="Matricula" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <EntityContainer Name="academiaModelStoreContainer">
+          <EntitySet Name="Aula" EntityType="Self.Aula" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Avaliacao" EntityType="Self.Avaliacao" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="DiaSemana" EntityType="Self.DiaSemana" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Ferias" EntityType="Self.Ferias" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Pagamento" EntityType="Self.Pagamento" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Reserva" EntityType="Self.Reserva" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Usuario" EntityType="Self.Usuario" Schema="dbo" store:Type="Tables" />
+          <AssociationSet Name="fk_Aula_instrutor" Association="Self.fk_Aula_instrutor">
+            <End Role="Usuario" EntitySet="Usuario" />
+            <End Role="Aula" EntitySet="Aula" />
+          </AssociationSet>
+          <AssociationSet Name="fk_Aula_reserva" Association="Self.fk_Aula_reserva">
+            <End Role="Aula" EntitySet="Aula" />
+            <End Role="Reserva" EntitySet="Reserva" />
+          </AssociationSet>
+          <AssociationSet Name="fk_usuario_Avaliacao" Association="Self.fk_usuario_Avaliacao">
+            <End Role="Usuario" EntitySet="Usuario" />
+            <End Role="Avaliacao" EntitySet="Avaliacao" />
+          </AssociationSet>
+          <AssociationSet Name="fk_usuario_Ferias" Association="Self.fk_usuario_Ferias">
+            <End Role="Usuario" EntitySet="Usuario" />
+            <End Role="Ferias" EntitySet="Ferias" />
+          </AssociationSet>
+          <AssociationSet Name="fk_usuario_pagamento" Association="Self.fk_usuario_pagamento">
+            <End Role="Usuario" EntitySet="Usuario" />
+            <End Role="Pagamento" EntitySet="Pagamento" />
+          </AssociationSet>
+          <AssociationSet Name="fk_usuario_reserva" Association="Self.fk_usuario_reserva">
+            <End Role="Usuario" EntitySet="Usuario" />
+            <End Role="Reserva" EntitySet="Reserva" />
+          </AssociationSet>
+        </EntityContainer>
+      </Schema></edmx:StorageModels>
+    <!-- CSDL content -->
+    <edmx:ConceptualModels>
+      <Schema Namespace="academiaModel" Alias="Self" annotation:UseStrongSpatialTypes="false" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm">
+        <EntityType Name="Aula">
+          <Key>
+            <PropertyRef Name="AulaID" />
+          </Key>
+          <Property Name="AulaID" Type="Int64" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="Nome" Type="String" MaxLength="255" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="Sala" Type="String" MaxLength="11" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="DataInicio" Type="DateTime" Nullable="false" Precision="3" />
+          <Property Name="DataFim" Type="DateTime" Nullable="false" Precision="3" />
+          <Property Name="Matricula" Type="Int64" Nullable="false" />
+          <NavigationProperty Name="Usuario" Relationship="Self.fk_Aula_instrutor" FromRole="Aula" ToRole="Usuario" />
+          <NavigationProperty Name="Reservas" Relationship="Self.fk_Aula_reserva" FromRole="Aula" ToRole="Reserva" />
+        </EntityType>
+        <EntityType Name="Avaliacao">
+          <Key>
+            <PropertyRef Name="AvaliacaoID" />
+          </Key>
+          <Property Name="AvaliacaoID" Type="Int64" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="Anamnese" Type="String" MaxLength="255" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="Ergometrico" Type="String" MaxLength="11" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="DobrasCutaneas" Type="String" MaxLength="500" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="DataRealizacao" Type="DateTime" Nullable="false" Precision="3" />
+          <Property Name="DataAgendamento" Type="DateTime" Nullable="false" Precision="3" />
+          <Property Name="Matricula" Type="Int64" Nullable="false" />
+          <NavigationProperty Name="Usuario" Relationship="Self.fk_usuario_Avaliacao" FromRole="Avaliacao" ToRole="Usuario" />
+        </EntityType>
+        <EntityType Name="DiaSemana">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Name="ID" Type="Int64" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="DataDia" Type="DateTime" Nullable="false" Precision="3" />
+          <Property Name="NomeDia" Type="String" MaxLength="11" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="Semana" Type="Int32" Nullable="false" />
+        </EntityType>
+        <EntityType Name="Feria">
+          <Key>
+            <PropertyRef Name="FeriasID" />
+          </Key>
+          <Property Name="FeriasID" Type="Int64" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="DataIncio" Type="DateTime" Nullable="false" Precision="3" />
+          <Property Name="DataFim" Type="DateTime" Nullable="false" Precision="3" />
+          <Property Name="Matricula" Type="Int64" Nullable="false" />
+          <NavigationProperty Name="Usuario" Relationship="Self.fk_usuario_Ferias" FromRole="Ferias" ToRole="Usuario" />
+        </EntityType>
+        <EntityType Name="Pagamento">
+          <Key>
+            <PropertyRef Name="PagamentoId" />
+          </Key>
+          <Property Name="PagamentoId" Type="Int64" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="Vencimento" Type="DateTime" Nullable="false" Precision="3" />
+          <Property Name="Matricula" Type="Int64" Nullable="false" />
+          <NavigationProperty Name="Usuario" Relationship="Self.fk_usuario_pagamento" FromRole="Pagamento" ToRole="Usuario" />
+          <Property Name="DataPagamento" Type="DateTime" Precision="3" />
+        </EntityType>
+        <EntityType Name="Reserva">
+          <Key>
+            <PropertyRef Name="ReservaID" />
+          </Key>
+          <Property Name="ReservaID" Type="Int64" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="Presenca" Type="DateTime" Nullable="false" Precision="3" />
+          <Property Name="Matricula" Type="Int64" Nullable="false" />
+          <Property Name="AulaID" Type="Int64" Nullable="false" />
+          <NavigationProperty Name="Aula" Relationship="Self.fk_Aula_reserva" FromRole="Reserva" ToRole="Aula" />
+          <NavigationProperty Name="Usuario" Relationship="Self.fk_usuario_reserva" FromRole="Reserva" ToRole="Usuario" />
+        </EntityType>
+        <EntityType Name="Usuario">
+          <Key>
+            <PropertyRef Name="Matricula" />
+          </Key>
+          <Property Name="Matricula" Type="Int64" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="Nome" Type="String" MaxLength="255" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="CPF" Type="String" MaxLength="11" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="Endereco" Type="String" MaxLength="500" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="Telefone" Type="String" MaxLength="15" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="TipoUsuario" Type="String" MaxLength="1" FixedLength="true" Unicode="false" Nullable="false" />
+          <Property Name="Email" Type="String" MaxLength="255" FixedLength="false" Unicode="false" />
+          <Property Name="TípoPlano" Type="String" MaxLength="1" FixedLength="true" Unicode="false" />
+          <Property Name="TipoAtividade" Type="String" MaxLength="1" FixedLength="true" Unicode="false" />
+          <Property Name="Ativo" Type="Boolean" Nullable="false" />
+          <NavigationProperty Name="Aulas" Relationship="Self.fk_Aula_instrutor" FromRole="Usuario" ToRole="Aula" />
+          <NavigationProperty Name="Avaliacaos" Relationship="Self.fk_usuario_Avaliacao" FromRole="Usuario" ToRole="Avaliacao" />
+          <NavigationProperty Name="Ferias" Relationship="Self.fk_usuario_Ferias" FromRole="Usuario" ToRole="Ferias" />
+          <NavigationProperty Name="Pagamentoes" Relationship="Self.fk_usuario_pagamento" FromRole="Usuario" ToRole="Pagamento" />
+          <NavigationProperty Name="Reservas" Relationship="Self.fk_usuario_reserva" FromRole="Usuario" ToRole="Reserva" />
+        </EntityType>
+        <Association Name="fk_Aula_instrutor">
+          <End Role="Usuario" Type="Self.Usuario" Multiplicity="1" />
+          <End Role="Aula" Type="Self.Aula" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Usuario">
+              <PropertyRef Name="Matricula" />
+            </Principal>
+            <Dependent Role="Aula">
+              <PropertyRef Name="Matricula" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="fk_Aula_reserva">
+          <End Role="Aula" Type="Self.Aula" Multiplicity="1" />
+          <End Role="Reserva" Type="Self.Reserva" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Aula">
+              <PropertyRef Name="AulaID" />
+            </Principal>
+            <Dependent Role="Reserva">
+              <PropertyRef Name="AulaID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="fk_usuario_Avaliacao">
+          <End Role="Usuario" Type="Self.Usuario" Multiplicity="1" />
+          <End Role="Avaliacao" Type="Self.Avaliacao" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Usuario">
+              <PropertyRef Name="Matricula" />
+            </Principal>
+            <Dependent Role="Avaliacao">
+              <PropertyRef Name="Matricula" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="fk_usuario_Ferias">
+          <End Role="Usuario" Type="Self.Usuario" Multiplicity="1" />
+          <End Role="Ferias" Type="Self.Feria" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Usuario">
+              <PropertyRef Name="Matricula" />
+            </Principal>
+            <Dependent Role="Ferias">
+              <PropertyRef Name="Matricula" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="fk_usuario_pagamento">
+          <End Role="Usuario" Type="Self.Usuario" Multiplicity="1" />
+          <End Role="Pagamento" Type="Self.Pagamento" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Usuario">
+              <PropertyRef Name="Matricula" />
+            </Principal>
+            <Dependent Role="Pagamento">
+              <PropertyRef Name="Matricula" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="fk_usuario_reserva">
+          <End Role="Usuario" Type="Self.Usuario" Multiplicity="1" />
+          <End Role="Reserva" Type="Self.Reserva" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Usuario">
+              <PropertyRef Name="Matricula" />
+            </Principal>
+            <Dependent Role="Reserva">
+              <PropertyRef Name="Matricula" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <EntityContainer Name="academiaEntities" annotation:LazyLoadingEnabled="true">
+          <EntitySet Name="Aulas" EntityType="Self.Aula" />
+          <EntitySet Name="Avaliacaos" EntityType="Self.Avaliacao" />
+          <EntitySet Name="DiaSemanas" EntityType="Self.DiaSemana" />
+          <EntitySet Name="Ferias" EntityType="Self.Feria" />
+          <EntitySet Name="Pagamentoes" EntityType="Self.Pagamento" />
+          <EntitySet Name="Reservas" EntityType="Self.Reserva" />
+          <EntitySet Name="Usuarios" EntityType="Self.Usuario" />
+          <AssociationSet Name="fk_Aula_instrutor" Association="Self.fk_Aula_instrutor">
+            <End Role="Usuario" EntitySet="Usuarios" />
+            <End Role="Aula" EntitySet="Aulas" />
+          </AssociationSet>
+          <AssociationSet Name="fk_Aula_reserva" Association="Self.fk_Aula_reserva">
+            <End Role="Aula" EntitySet="Aulas" />
+            <End Role="Reserva" EntitySet="Reservas" />
+          </AssociationSet>
+          <AssociationSet Name="fk_usuario_Avaliacao" Association="Self.fk_usuario_Avaliacao">
+            <End Role="Usuario" EntitySet="Usuarios" />
+            <End Role="Avaliacao" EntitySet="Avaliacaos" />
+          </AssociationSet>
+          <AssociationSet Name="fk_usuario_Ferias" Association="Self.fk_usuario_Ferias">
+            <End Role="Usuario" EntitySet="Usuarios" />
+            <End Role="Ferias" EntitySet="Ferias" />
+          </AssociationSet>
+          <AssociationSet Name="fk_usuario_pagamento" Association="Self.fk_usuario_pagamento">
+            <End Role="Usuario" EntitySet="Usuarios" />
+            <End Role="Pagamento" EntitySet="Pagamentoes" />
+          </AssociationSet>
+          <AssociationSet Name="fk_usuario_reserva" Association="Self.fk_usuario_reserva">
+            <End Role="Usuario" EntitySet="Usuarios" />
+            <End Role="Reserva" EntitySet="Reservas" />
+          </AssociationSet>
+        </EntityContainer>
+      </Schema>
+    </edmx:ConceptualModels>
+    <!-- C-S mapping content -->
+    <edmx:Mappings>
+      <Mapping Space="C-S" xmlns="http://schemas.microsoft.com/ado/2009/11/mapping/cs">
+        <EntityContainerMapping StorageEntityContainer="academiaModelStoreContainer" CdmEntityContainer="academiaEntities">
+          <EntitySetMapping Name="Aulas">
+            <EntityTypeMapping TypeName="academiaModel.Aula">
+              <MappingFragment StoreEntitySet="Aula">
+                <ScalarProperty Name="AulaID" ColumnName="AulaID" />
+                <ScalarProperty Name="Nome" ColumnName="Nome" />
+                <ScalarProperty Name="Sala" ColumnName="Sala" />
+                <ScalarProperty Name="DataInicio" ColumnName="DataInicio" />
+                <ScalarProperty Name="DataFim" ColumnName="DataFim" />
+                <ScalarProperty Name="Matricula" ColumnName="Matricula" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Avaliacaos">
+            <EntityTypeMapping TypeName="academiaModel.Avaliacao">
+              <MappingFragment StoreEntitySet="Avaliacao">
+                <ScalarProperty Name="AvaliacaoID" ColumnName="AvaliacaoID" />
+                <ScalarProperty Name="Anamnese" ColumnName="Anamnese" />
+                <ScalarProperty Name="Ergometrico" ColumnName="Ergometrico" />
+                <ScalarProperty Name="DobrasCutaneas" ColumnName="DobrasCutaneas" />
+                <ScalarProperty Name="DataRealizacao" ColumnName="DataRealizacao" />
+                <ScalarProperty Name="DataAgendamento" ColumnName="DataAgendamento" />
+                <ScalarProperty Name="Matricula" ColumnName="Matricula" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="DiaSemanas">
+            <EntityTypeMapping TypeName="academiaModel.DiaSemana">
+              <MappingFragment StoreEntitySet="DiaSemana">
+                <ScalarProperty Name="ID" ColumnName="ID" />
+                <ScalarProperty Name="DataDia" ColumnName="DataDia" />
+                <ScalarProperty Name="NomeDia" ColumnName="NomeDia" />
+                <ScalarProperty Name="Semana" ColumnName="Semana" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Ferias">
+            <EntityTypeMapping TypeName="academiaModel.Feria">
+              <MappingFragment StoreEntitySet="Ferias">
+                <ScalarProperty Name="FeriasID" ColumnName="FeriasID" />
+                <ScalarProperty Name="DataIncio" ColumnName="DataIncio" />
+                <ScalarProperty Name="DataFim" ColumnName="DataFim" />
+                <ScalarProperty Name="Matricula" ColumnName="Matricula" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Pagamentoes">
+            <EntityTypeMapping TypeName="academiaModel.Pagamento">
+              <MappingFragment StoreEntitySet="Pagamento">
+                <ScalarProperty Name="DataPagamento" ColumnName="DataPagamento" />
+                <ScalarProperty Name="PagamentoId" ColumnName="PagamentoId" />
+                <ScalarProperty Name="Vencimento" ColumnName="Vencimento" />
+                <ScalarProperty Name="Matricula" ColumnName="Matricula" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Reservas">
+            <EntityTypeMapping TypeName="academiaModel.Reserva">
+              <MappingFragment StoreEntitySet="Reserva">
+                <ScalarProperty Name="ReservaID" ColumnName="ReservaID" />
+                <ScalarProperty Name="Presenca" ColumnName="Presenca" />
+                <ScalarProperty Name="Matricula" ColumnName="Matricula" />
+                <ScalarProperty Name="AulaID" ColumnName="AulaID" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Usuarios">
+            <EntityTypeMapping TypeName="academiaModel.Usuario">
+              <MappingFragment StoreEntitySet="Usuario">
+                <ScalarProperty Name="Matricula" ColumnName="Matricula" />
+                <ScalarProperty Name="Nome" ColumnName="Nome" />
+                <ScalarProperty Name="CPF" ColumnName="CPF" />
+                <ScalarProperty Name="Endereco" ColumnName="Endereco" />
+                <ScalarProperty Name="Telefone" ColumnName="Telefone" />
+                <ScalarProperty Name="TipoUsuario" ColumnName="TipoUsuario" />
+                <ScalarProperty Name="Email" ColumnName="Email" />
+                <ScalarProperty Name="TípoPlano" ColumnName="TípoPlano" />
+                <ScalarProperty Name="TipoAtividade" ColumnName="TipoAtividade" />
+                <ScalarProperty Name="Ativo" ColumnName="Ativo" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+        </EntityContainerMapping>
+      </Mapping>
+    </edmx:Mappings>
+  </edmx:Runtime>
+  <!-- EF Designer content (DO NOT EDIT MANUALLY BELOW HERE) -->
+  <Designer xmlns="http://schemas.microsoft.com/ado/2009/11/edmx">
+    <Connection>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="MetadataArtifactProcessing" Value="EmbedInOutputAssembly" />
+      </DesignerInfoPropertySet>
+    </Connection>
+    <Options>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="ValidateOnBuild" Value="true" />
+        <DesignerProperty Name="EnablePluralization" Value="true" />
+        <DesignerProperty Name="IncludeForeignKeysInModel" Value="true" />
+        <DesignerProperty Name="UseLegacyProvider" Value="false" />
+        <DesignerProperty Name="CodeGenerationStrategy" Value="None" />
+      </DesignerInfoPropertySet>
+    </Options>
+    <!-- Diagram content (shape and connector positions) -->
+    <Diagrams></Diagrams>
+  </Designer>
+</edmx:Edmx>

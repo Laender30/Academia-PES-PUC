@@ -1,0 +1,66 @@
+﻿@model WebApplication3.Models.Avaliacao
+
+@{
+    ViewBag.Title = "Detalhes";
+}
+
+<h2>Detalhes</h2>
+
+<div>
+    <h4>Avaliacao</h4>
+    <hr />
+    <dl class="dl-horizontal">
+        <dt>
+            @Html.DisplayNameFor(model => model.Anamnese)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Anamnese)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.Ergometrico)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Ergometrico)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.DobrasCutaneas)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.DobrasCutaneas)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.DataRealizacao)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.DataRealizacao)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.DataAgendamento)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.DataAgendamento)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.Matricula)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Matricula)
+        </dd>
+
+    </dl>
+</div>
+<p>
+    @Html.ActionLink("Edit", "Edit", new { id = Model.AvaliacaoID }) |
+    @Html.ActionLink("Back to List", "Index")
+</p>
